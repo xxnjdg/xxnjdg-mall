@@ -37,6 +37,13 @@ spring:
         min-idle: 5       # 连接池中的最小空闲连接
   mvc:
     throw-exception-if-no-handler-found: true
+  application:
+    name: renren-fast
+  # 注册中心nacos地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.100.26:8848
 #  resources:
 #    add-mappings: false
 

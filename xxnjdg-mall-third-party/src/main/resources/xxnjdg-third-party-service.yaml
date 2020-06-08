@@ -1,0 +1,14 @@
+server:
+  port: 16000
+spring:
+  cloud:
+    alicloud:
+      access-key:
+      secret-key:
+      oss:
+        endpoint: oss-cn-shenzhen.aliyuncs.com
+      bucket: xxnjdgoss
+    # 注册中心nacos地址
+    nacos:
+      discovery:
+        server-addr: 192.168.100.26:8848

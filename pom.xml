@@ -16,6 +16,11 @@
         <module>xxnjdg-mall-member</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
+        <module>xxnjdg-mall-common</module>
+        <module>xxnjdg-mall-parent</module>
+        <module>xxnjdg-mall-spring-boot</module>
+        <module>xxnjdg-mall-gateway</module>
+        <module>xxnjdg-mall-third-party</module>
     </modules>
 
 

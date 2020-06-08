@@ -1,0 +1,42 @@
+server:
+  port: 15000
+spring:
+  application:
+    name: xxnjdg-gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称j进行路由
+      routes:
+        - id: product_route
+          uri: lb://xxnjdg-product-service
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: third_party_route
+          uri: lb://xxnjdg-third-party-service
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allow-credentials: true
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            max-age: 3600
+    # 注册中心nacos地址
+    nacos:
+      discovery:
+        server-addr: 192.168.100.26:8848

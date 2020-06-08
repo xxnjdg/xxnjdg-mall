@@ -1,0 +1,17 @@
+package io.xxnjdg.mall.order.dao;
+
+import io.xxnjdg.mall.order.entity.PaymentInfoEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * 支付信息表
+ * 
+ * @author xxnjdg
+ * @email 1422570468@qq.com
+ * @date 2020-06-04 11:52:46
+ */
+@Mapper
+public interface PaymentInfoDao extends BaseMapper<PaymentInfoEntity> {
+	
+}
