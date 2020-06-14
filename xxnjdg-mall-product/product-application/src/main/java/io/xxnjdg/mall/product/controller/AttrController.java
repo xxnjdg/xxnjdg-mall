@@ -1,15 +1,15 @@
 package io.xxnjdg.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import io.xxnjdg.mall.product.entity.ProductAttrValueEntity;
+import io.xxnjdg.mall.product.service.ProductAttrValueService;
+import io.xxnjdg.mall.product.vo.AttrRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.xxnjdg.mall.product.entity.AttrEntity;
 import io.xxnjdg.mall.product.service.AttrService;
@@ -31,6 +31,26 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    ProductAttrValueService productAttrValueService;
+
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrlistforspu(@PathVariable("spuId") Long spuId){
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrlistforspu(spuId);
+
+        return R.ok().put("data",entities);
+    }
+
+    @GetMapping("/{attrType}/list/{catelogId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType")String type){
+
+        PageUtils page = attrService.queryBaseAttrPage(params,catelogId,type);
+        return R.ok().put("page", page);
+    }
+
     /**
      * 列表
      */
@@ -49,9 +69,10 @@ public class AttrController {
     @RequestMapping("/info/{attrId}")
     //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+//		AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo respVo = attrService.getAttrInfo(attrId);
 
-        return R.ok().put("attr", attr);
+        return R.ok().put("attr", respVo);
     }
 
     /**
@@ -72,6 +93,15 @@ public class AttrController {
     //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrEntity attr){
 		attrService.updateById(attr);
+
+        return R.ok();
+    }
+
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
+
+        productAttrValueService.updateSpuAttr(spuId,entities);
 
         return R.ok();
     }

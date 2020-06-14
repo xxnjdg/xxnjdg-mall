@@ -14,6 +14,7 @@ import io.xxnjdg.mall.coupon.service.SpuBoundsService;
 
 
 @Service("spuBoundsService")
+@org.apache.dubbo.config.annotation.Service(protocol = "dubbo", version = "1.0.0",validation = "true")
 public class SpuBoundsServiceImpl extends ServiceImpl<SpuBoundsDao, SpuBoundsEntity> implements SpuBoundsService {
 
     @Override
