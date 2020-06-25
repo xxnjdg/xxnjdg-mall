@@ -2,12 +2,15 @@ package io.xxnjdg.mall.ware.service.impl;
 
 import io.xxnjdg.mall.product.entity.SkuInfoEntity;
 import io.xxnjdg.mall.product.service.SkuInfoService;
+import io.xxnjdg.mall.ware.vo.SkuHasStockVO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 
 @Service("wareSkuService")
+@org.apache.dubbo.config.annotation.Service(protocol = "dubbo", version = "1.0.0",validation = "true")
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
 
     @Autowired
@@ -93,6 +97,19 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuDao.addStock(skuId,wareId,skuNum);
         }
 
+    }
+
+    @Override
+    public List<SkuHasStockVO> getSkusHasStock(List<Long> skuIds) {
+        List<SkuHasStockVO> collect = skuIds.stream().map(skuId -> {
+            SkuHasStockVO vo = new SkuHasStockVO();
+            // 查询当前 sku 的库存
+            Long count = baseMapper.getSkuStock(skuId);
+            vo.setSkuId(skuId);
+            vo.setHasStock(count != null && count > 0);
+            return vo;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }

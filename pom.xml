@@ -21,6 +21,8 @@
         <module>xxnjdg-mall-spring-boot</module>
         <module>xxnjdg-mall-gateway</module>
         <module>xxnjdg-mall-third-party</module>
+        <module>xxnjdg-mall-search</module>
+        <module>xxnjdg-mall-auth</module>
     </modules>
 
 

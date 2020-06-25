@@ -93,7 +93,8 @@ export default {
             _self.dataObj.policy = response.data.policy
             _self.dataObj.signature = response.data.signature
             _self.dataObj.ossaccessKeyId = response.data.accessid
-            _self.dataObj.key = response.data.dir + getUUID() + '_*{filename}'
+            // eslint-disable-next-line no-template-curly-in-string
+            _self.dataObj.key = response.data.dir + getUUID() + '_${filename}'
             _self.dataObj.dir = response.data.dir
             _self.dataObj.host = response.data.host
             resolve(true)
@@ -104,10 +105,13 @@ export default {
       })
     },
     handleUploadSuccess (res, file) {
+      // console.log(file.name)
+
       this.fileList.push({
         name: file.name,
         // url: this.dataObj.host + "/" + this.dataObj.dir + "/" + file.name； 替换${filename}为真正的文件名
-        url: this.dataObj.host + '/' + this.dataObj.key.replace('*{filename}', file.name)
+        // eslint-disable-next-line no-template-curly-in-string
+        url: this.dataObj.host + '/' + this.dataObj.key.replace('${filename}', file.name)
       })
       this.emitInput(this.fileList)
     },

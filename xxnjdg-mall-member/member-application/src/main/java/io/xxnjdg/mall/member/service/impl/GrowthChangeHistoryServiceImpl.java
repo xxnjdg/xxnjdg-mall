@@ -14,6 +14,7 @@ import io.xxnjdg.mall.member.service.GrowthChangeHistoryService;
 
 
 @Service("growthChangeHistoryService")
+@org.apache.dubbo.config.annotation.Service(protocol = "dubbo", version = "1.0.0",validation = "true")
 public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHistoryDao, GrowthChangeHistoryEntity> implements GrowthChangeHistoryService {
 
     @Override

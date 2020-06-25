@@ -20,10 +20,10 @@
               <el-input v-model="spu.spuDescription"></el-input>
             </el-form-item>
             <el-form-item label="选择分类" prop="catalogId">
-              <category-cascader></category-cascader>
+              <category-cascader @updateCatelogPath="updateCatelogPath"></category-cascader>
             </el-form-item>
             <el-form-item label="选择品牌" prop="brandId">
-              <brand-select></brand-select>
+              <brand-select :brandPath="catelogPath" @parentbrandPath="parentbrandPath" ></brand-select>
             </el-form-item>
             <el-form-item label="商品重量(Kg)" prop="weight">
               <el-input-number v-model.number="spu.weight" :min="0" :precision="3" :step="0.1"></el-input-number>
@@ -128,12 +128,13 @@
                     v-show="false"
                   ></el-input>
                   <el-checkbox-group v-model="dataResp.tempSaleAttrs[aidx].attrValues">
-                    <el-checkbox
-                      v-if="dataResp.saleAttrs[aidx].valueSelect != ''"
+                    <div v-if="dataResp.saleAttrs[aidx].valueSelect !== ''" >
+                      <el-checkbox
                       :label="val"
                       v-for="val in dataResp.saleAttrs[aidx].valueSelect.split(';')"
                       :key="val"
                     ></el-checkbox>
+                    </div>
                     <div style="margin-left:20px;display:inline">
                       <el-button
                         v-show="!inputVisible[aidx].view"
@@ -390,12 +391,12 @@ export default {
         brandId: [
           { required: true, message: '请选择一个品牌', trigger: 'blur' }
         ],
-        decript: [
-          { required: true, message: '请上传商品详情图集', trigger: 'blur' }
-        ],
-        images: [
-          { required: true, message: '请上传商品图片集', trigger: 'blur' }
-        ],
+        // decript: [
+        //   { required: true, message: '请上传商品详情图集', trigger: 'blur' }
+        // ],
+        // images: [
+        //   { required: true, message: '请上传商品图片集', trigger: 'blur' }
+        // ],
         weight: [
           {
             type: 'number',
@@ -416,7 +417,8 @@ export default {
         steped: [false, false, false, false, false]
       },
       inputVisible: [],
-      inputValue: []
+      inputValue: [],
+      catelogPath: []
     }
   },
   computed: {},
@@ -443,6 +445,17 @@ export default {
   },
   // 方法集合
   methods: {
+    updateCatelogPath (val) {
+      if (val.length === 3) {
+        this.spu.catalogId = val[val.length - 1]
+        this.catelogPath = val
+      }
+    },
+    parentbrandPath (val) {
+      console.log(this.spu.catalogId)
+      // console.log(val)
+      this.spu.brandId = val
+    },
     addAgian () {
       this.step = 0
       this.resetSpuData()
@@ -518,6 +531,8 @@ export default {
       // spuBaseForm
       this.$refs.spuBaseForm.validate(valid => {
         if (valid) {
+          console.log(this.spu)
+
           this.step = 1
           this.showBaseAttrs()
         } else {
@@ -663,6 +678,7 @@ export default {
     },
     showBaseAttrs () {
       if (!this.dataResp.steped[0]) {
+        console.log(this.spu.catalogId)
         this.$http({
           url: this.$http.adornUrl(
             `/product/attrgroup/${this.spu.catalogId}/withattr`
@@ -671,16 +687,20 @@ export default {
           params: this.$http.adornParams({})
         }).then(({ data }) => {
           // 先对表单的baseAttrs进行初始化
+          console.log(data.data)
+
           data.data.forEach(item => {
             let attrArray = []
-            item.attrs.forEach(attr => {
-              attrArray.push({
-                attrId: attr.attrId,
-                attrValues: '',
-                showDesc: attr.showDesc
+            if (item.attrs !== null) {
+              item.attrs.forEach(attr => {
+                attrArray.push({
+                  attrId: attr.attrId,
+                  attrValues: '',
+                  showDesc: attr.showDesc
+                })
               })
-            })
-            this.dataResp.baseAttrs.push(attrArray)
+              this.dataResp.baseAttrs.push(attrArray)
+            }
           })
           this.dataResp.steped[0] = 0
           this.dataResp.attrGroups = data.data
@@ -777,17 +797,17 @@ export default {
     }
   },
   mounted () {
-    this.catPathSub = this.PubSub.subscribe('catPath', (msg, val) => {
-      this.spu.catalogId = val[val.length - 1]
-    })
-    this.brandIdSub = this.PubSub.subscribe('brandId', (msg, val) => {
-      this.spu.brandId = val
-    })
+    // this.catPathSub = this.PubSub.subscribe('catPath', (msg, val) => {
+    //   this.spu.catalogId = val[val.length - 1]
+    // })
+    // this.brandIdSub = this.PubSub.subscribe('brandId', (msg, val) => {
+    //   this.spu.brandId = val
+    // })
     this.getMemberLevels()
   },
   beforeDestroy () {
-    this.PubSub.unsubscribe(this.catPathSub)
-    this.PubSub.unsubscribe(this.brandIdSub)
+    // this.PubSub.unsubscribe(this.catPathSub)
+    // this.PubSub.unsubscribe(this.brandIdSub)
   }
 }
 </script>

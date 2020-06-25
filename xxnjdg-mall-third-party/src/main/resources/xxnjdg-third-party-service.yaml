@@ -1,5 +1,5 @@
 server:
-  port: 16000
+  port: 27997
 spring:
   cloud:
     alicloud:
@@ -8,6 +8,11 @@ spring:
       oss:
         endpoint: oss-cn-shenzhen.aliyuncs.com
       bucket: xxnjdgoss
+      sms:
+        callbackUrl: http://test.dev.esandcloud.com
+        channel: 1
+        time: 1
+        appcode:
     # 注册中心nacos地址
     nacos:
       discovery:

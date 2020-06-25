@@ -1,5 +1,5 @@
 server:
-  port: 15000
+  port: 27996
 spring:
   application:
     name: xxnjdg-gateway-service
@@ -16,6 +16,41 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
 
+        - id: coupon_route
+          uri: lb://xxnjdg-coupon-service
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: member_route
+          uri: lb://xxnjdg-member-service
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: order_route
+          uri: lb://xxnjdg-order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: ware_route
+          uri: lb://xxnjdg-ware-service
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: search_route
+          uri: lb://xxnjdg-search-service
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
         - id: third_party_route
           uri: lb://xxnjdg-third-party-service
           predicates:
@@ -28,6 +63,22 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+        - id: gulimall_host_route
+          uri: lb://xxnjdg-product-service
+          predicates:
+            - Host=gulimall.com,item.gulimall.com
+
+        - id: search_gulimall_host_route
+          uri: lb://xxnjdg-search-service
+          predicates:
+            - Host=search.gulimall.com
+
+        - id: gulimall_auth_route
+          uri: lb://xxnjdg-auth-service
+          predicates:
+            - Host=auth.gulimall.com
+
       globalcors:
         cors-configurations:
           '[/**]':

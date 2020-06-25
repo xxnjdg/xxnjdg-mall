@@ -1,3 +1,12 @@
-#spring:
-#  profiles:
-#    active: dev
+spring:
+  profiles:
+    active: test
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.100.26
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+      time-to-live: 3600000

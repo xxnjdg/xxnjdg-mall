@@ -42,7 +42,8 @@
         <el-input v-model="dataForm.icon" placeholder="属性图标"></el-input>
       </el-form-item>
       <el-form-item label="所属分类" prop="catelogId">
-        <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
+        <!-- <category-cascader :catelogPath.sync="catelogPath"></category-cascader> -->
+        <category-cascader :catelogPath="catelogPath" @updateCatelogPath="updateCatelogPath"></category-cascader>
       </el-form-item>
       <el-form-item label="所属分组" prop="attrGroupId" v-if="type == 1">
         <el-select ref="groupSelect" v-model="dataForm.attrGroupId" placeholder="请选择">
@@ -199,6 +200,9 @@ export default {
   },
   components: { CategoryCascader },
   methods: {
+    updateCatelogPath (val) {
+      this.catelogPath = val
+    },
     init (id) {
       this.dataForm.attrId = id || 0
       this.dataForm.attrType = this.type
