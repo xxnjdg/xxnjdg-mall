@@ -26,6 +26,7 @@
         <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
         <elasticsearch.version>7.4.2</elasticsearch.version>
         <redisson.version>3.12.5</redisson.version>
+        <spring.session.bom>Dragonfruit-RELEASE</spring.session.bom>
 
         <dubbo.version>2.7.6</dubbo.version>
         <hutool.all.version>5.2.5</hutool.all.version>
@@ -61,6 +62,15 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- spring session   -->
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-bom</artifactId>
+                <version>${spring.session.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

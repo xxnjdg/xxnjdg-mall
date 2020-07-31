@@ -2,6 +2,7 @@ package io.xxnjdg.mall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.xxnjdg.common.utils.PageUtils;
+import io.xxnjdg.mall.member.dto.MemberRegisterDTO;
 import io.xxnjdg.mall.member.entity.MemberEntity;
 
 import java.util.Map;
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface MemberService extends IService<MemberEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    Boolean memberRegister(MemberRegisterDTO memberRegisterDTO);
+
+    MemberEntity getMemberByUid(String uid);
 }
 

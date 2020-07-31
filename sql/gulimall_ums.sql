@@ -71,6 +71,9 @@ create table ums_member
    growth               int comment '成长值',
    status               tinyint comment '启用状态',
    create_time          datetime comment '注册时间',
+   access_token         varchar(64) comment '访问token',
+   expires_in           varchar(20) comment '过期时间',
+   uid                  varchar(20) comment 'uid',
    primary key (id)
 );
 

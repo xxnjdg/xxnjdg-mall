@@ -23,6 +23,7 @@
         <module>xxnjdg-mall-third-party</module>
         <module>xxnjdg-mall-search</module>
         <module>xxnjdg-mall-auth</module>
+        <module>xxnjdg-mall-cart</module>
     </modules>
 
 
